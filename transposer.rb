@@ -18,12 +18,14 @@ puts "Enter new key "
 new_key = gets.chomp.downcase
 puts new_key
 puts "Enter chord sequence "
-orig_chords = gets.chomp
+orig_chords = gets.chomp.split(' ')
 puts orig_chords
-orig_chords_first_letters = []
-orig_chords.split(' ').each {|letter| orig_chords_first_letters << letter[0]}
-puts orig_chords_first_letters
+orig_first_letters = []
+orig_remaining_letters = []
+orig_chords.each {|letter| orig_first_letters << letter[0]; orig_remaining_letters << letter[1..]}
+puts orig_first_letters
+puts orig_remaining_letters
+#steps = []
 
-#orig_steps = []
-#orig_chords_first_letters.each {|letter| orig_steps << }
+
 
