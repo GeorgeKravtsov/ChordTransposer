@@ -11,21 +11,36 @@ f# = {'F#'=> 1, 'G'=> 2, 'G#'=> 3, 'A'=> 4, 'A#'=> 5, 'H'=> 6, 'C'=> 7, 'C#'=> 8
 g = {'G'=> 1, 'G#'=> 2, 'A'=> 3, 'A#'=> 4, 'H'=> 5, 'C'=> 6, 'C#'=> 7, 'D'=> 8, 'D#'=> 9, 'E'=> 10, 'F'=> 11, 'F#'=> 12}
 g# = {'G#'=> 1, 'A'=> 2, 'A#'=> 3, 'H'=> 4, 'C'=> 5, 'C#'=> 6, 'D'=> 7, 'D#'=> 8, 'E'=> 9, 'F'=> 10, 'F#'=> 11, 'G'=> 12}
 
-puts "Enter original key: "
-orig_key = gets.chomp.downcase
-puts orig_key
-puts "Enter new key "
-new_key = gets.chomp.downcase
-puts new_key
+#puts "Enter original key: "
+#orig_key = gets.chomp.downcase
+#puts orig_key
+#puts "Enter new key "
+#new_key = gets.chomp.downcase
+#puts new_key
 puts "Enter chord sequence "
 orig_chords = gets.chomp.split(' ')
 puts orig_chords
+
 orig_first_letters = []
 orig_remaining_letters = []
-orig_chords.each {|letter| orig_first_letters << letter[0]; orig_remaining_letters << letter[1..]}
-puts orig_first_letters
-puts orig_remaining_letters
-#steps = []
+orig_chords.each {|letter| orig_first_letters << letter[0].upcase; orig_remaining_letters << letter[1..]}
 
+steps = []
+orig_first_letters.each {|letter| steps << a[letter]} # suppose original key is A minor
 
+new_first_letters = []
+steps.each {|step| new_first_letters << d.key(step)}
+
+new_frst_and_remaining_letters = []
+for i in [0..new_first_letters.size] do
+  new_frst_and_remaining_letters[i] = new_first_letters[i] + orig_remaining_letters[i]
+end
+
+first_ltr_index = 0
+remaining_ltr_index = new_first_letters.size
+while first_ltr_index < new_first_letters.size do
+  print "#{new_frst_and_remaining_letters[first_ltr_index] + new_frst_and_remaining_letters[remaining_ltr_index]}"
+  first_ltr_index += 1
+  remaining_ltr_index += 1
+end
 
