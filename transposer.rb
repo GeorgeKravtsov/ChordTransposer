@@ -11,32 +11,32 @@ scales = {'a' => {'A'=> 1,'A#'=> 2,'H'=> 3,'C'=> 4,'C#'=> 5,'D'=> 6,'D#'=> 7,'E'
 'g' => {'G'=> 1, 'G#'=> 2, 'A'=> 3, 'A#'=> 4, 'H'=> 5, 'C'=> 6, 'C#'=> 7, 'D'=> 8, 'D#'=> 9, 'E'=> 10, 'F'=> 11, 'F#'=> 12},
 'g#' => {'G#'=> 1, 'A'=> 2, 'A#'=> 3, 'H'=> 4, 'C'=> 5, 'C#'=> 6, 'D'=> 7, 'D#'=> 8, 'E'=> 9, 'F'=> 10, 'F#'=> 11, 'G'=> 12}}
 
+puts "Welcome to Transposer, a simple program that allows you to transpose chords from one key to another"
 puts "Enter original key: "
 orig_key = gets.chomp.downcase
-puts orig_key
+
 puts "Enter new key: "
 new_key = gets.chomp.downcase
-puts new_key
+
 puts "Enter chord sequence: "
 orig_chords = gets.chomp.split(' ')
-puts orig_chords
 
 orig_first_letters = []
 orig_remaining_letters = []
 orig_chords.each {|letter| orig_first_letters << letter[0].upcase; orig_remaining_letters << letter[1..]}
 
-
-
 steps = []
-orig_first_letters.each {|letter| steps << scales[orig_key][letter]}
+orig_first_letters.each {|letter| steps << scales[orig_key[0]][letter]}
 
 new_first_letters = []
-steps.each {|step| new_first_letters << scales[new_key].key(step)}
+steps.each {|step| new_first_letters << scales[new_key[0]].key(step)}
 
 new_frst_and_remaining_letters = []
 for i in [0..new_first_letters.size] do
   new_frst_and_remaining_letters[i] = new_first_letters[i] + orig_remaining_letters[i]
 end
+
+puts "Chords in #{new_key[0].upcase + new_key[1..]} "
 
 first_ltr_index = 0
 remaining_ltr_index = new_first_letters.size
