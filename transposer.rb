@@ -11,38 +11,53 @@ scales = {'a' => {'A'=> 1,'A#'=> 2,'H'=> 3,'C'=> 4,'C#'=> 5,'D'=> 6,'D#'=> 7,'E'
 'g' => {'G'=> 1, 'G#'=> 2, 'A'=> 3, 'A#'=> 4, 'H'=> 5, 'C'=> 6, 'C#'=> 7, 'D'=> 8, 'D#'=> 9, 'E'=> 10, 'F'=> 11, 'F#'=> 12},
 'g#' => {'G#'=> 1, 'A'=> 2, 'A#'=> 3, 'H'=> 4, 'C'=> 5, 'C#'=> 6, 'D'=> 7, 'D#'=> 8, 'E'=> 9, 'F'=> 10, 'F#'=> 11, 'G'=> 12}}
 
-puts "Welcome to Transposer, a simple program that allows you to transpose chords from one key to another"
+puts "\nWelcome to Transposer, a simple program that allows you to transpose chords from one key to another"
 puts "Enter original key: "
-orig_key = gets.chomp.downcase
+orig_key = 'am' #gets.chomp.downcase
 
 puts "Enter new key: "
-new_key = gets.chomp.downcase
+new_key = 'dm' #gets.chomp.downcase
 
 puts "Enter chord sequence: "
-orig_chords = gets.chomp.split(' ')
+orig_chords = 'Am7 D#m7 Dm9 E7 A#m7 Am7'.split(' ') #gets.chomp.split(' ')
 
 orig_first_letters = []
 orig_remaining_letters = []
-orig_chords.each {|letter| orig_first_letters << letter[0].upcase; orig_remaining_letters << letter[1..]}
-
+orig_chords.each {|letter|
+  (letter[1] == '#' ? orig_first_letters << letter[0].upcase + letter[1] : orig_first_letters << letter[0].upcase)
+  (letter[1] == '#' ? orig_remaining_letters << letter[2..] : orig_remaining_letters << letter[1..])
+  (letter[1] == 'b' ? orig_first_letters << letter[0].upcase + letter[1] : orig_first_letters << letter[0].upcase)
+  (letter[1] == 'b' ? orig_remaining_letters << letter[2..] : orig_remaining_letters << letter[1..])
+}
+puts 'orig_first_letters'
+orig_first_letters.each {|l| print(l, ' ')}
+puts 'orig_remaining_letters'
+orig_remaining_letters.each {|l| print(l, ' ')}
 steps = []
-orig_first_letters.each {|letter| steps << scales[orig_key[0]][letter]}
-
+orig_first_letters.each {|letter|
+  steps << scales[(orig_key[1] == '#' or orig_key[1] == 'b' ? orig_key[0].downcase + orig_key[1] : orig_key[0])][letter]
+}
+puts 'steps'
+steps.each {|l| print(l, ' ')}
 new_first_letters = []
-steps.each {|step| new_first_letters << scales[new_key[0]].key(step)}
-
-new_frst_and_remaining_letters = []
+steps.each {|step|
+  new_first_letters << scales[(new_key[1] == '#' or new_key[1] == 'b' ? new_key[0].downcase + new_key[1] : new_key[0])].key(step)
+}
+puts 'new_first_letters'
+new_first_letters.each {|l| print(l, ' ')}
+new_first_and_remaining_letters = []
 for i in [0..new_first_letters.size] do
-  new_frst_and_remaining_letters[i] = new_first_letters[i] + orig_remaining_letters[i]
+  new_first_and_remaining_letters[i] = new_first_letters[i] + orig_remaining_letters[i]
 end
-
+puts 'new_first_and_remaining_letters'
+new_first_and_remaining_letters.each {|l| print(l, ' ')}
 puts "Chords in #{new_key[0].upcase + new_key[1..]} "
 
-first_ltr_index = 0
-remaining_ltr_index = new_first_letters.size
-while first_ltr_index < new_first_letters.size do
-  print "#{new_frst_and_remaining_letters[first_ltr_index] + new_frst_and_remaining_letters[remaining_ltr_index] + ' '}"
-  first_ltr_index += 1
-  remaining_ltr_index += 1
+first_letter_index = 0
+remaining_letter_index = new_first_letters.size
+while first_letter_index < new_first_letters.size do
+  print "#{new_first_and_remaining_letters[first_letter_index] + new_first_and_remaining_letters[remaining_letter_index] + ' '}"
+  first_letter_index += 1
+  remaining_letter_index += 1
 end
 
