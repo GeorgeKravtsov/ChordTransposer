@@ -13,44 +13,39 @@ scales = {'a' => {'A'=> 1,'A#'=> 2,'H'=> 3,'C'=> 4,'C#'=> 5,'D'=> 6,'D#'=> 7,'E'
 
 puts "\nWelcome to Transposer, a simple program that allows you to transpose chords from one key to another"
 puts "Enter original key: "
-orig_key = 'am' #gets.chomp.downcase
+orig_key = gets.chomp.downcase
 
 puts "Enter new key: "
-new_key = 'dm' #gets.chomp.downcase
+new_key = gets.chomp.downcase
 
 puts "Enter chord sequence: "
-orig_chords = 'Am7 D#m7 Dm9 E7 A#m7 Am7'.split(' ') #gets.chomp.split(' ')
+orig_chords = gets.chomp.split(' ')
 
 orig_first_letters = []
 orig_remaining_letters = []
-orig_chords.each {|letter|
-  (letter[1] == '#' ? orig_first_letters << letter[0].upcase + letter[1] : orig_first_letters << letter[0].upcase)
-  (letter[1] == '#' ? orig_remaining_letters << letter[2..] : orig_remaining_letters << letter[1..])
-  (letter[1] == 'b' ? orig_first_letters << letter[0].upcase + letter[1] : orig_first_letters << letter[0].upcase)
-  (letter[1] == 'b' ? orig_remaining_letters << letter[2..] : orig_remaining_letters << letter[1..])
-}
-puts 'orig_first_letters'
-orig_first_letters.each {|l| print(l, ' ')}
-puts 'orig_remaining_letters'
-orig_remaining_letters.each {|l| print(l, ' ')}
+for letter in orig_chords do
+  if letter[1] == '#' or letter[1] == 'b'
+    orig_first_letters << letter[0].upcase + letter[1]
+    orig_remaining_letters << letter[2..]
+  else orig_first_letters << letter[0].upcase; orig_remaining_letters << letter[1..]
+  end
+end
+
 steps = []
 orig_first_letters.each {|letter|
   steps << scales[(orig_key[1] == '#' or orig_key[1] == 'b' ? orig_key[0].downcase + orig_key[1] : orig_key[0])][letter]
 }
-puts 'steps'
-steps.each {|l| print(l, ' ')}
+
 new_first_letters = []
 steps.each {|step|
   new_first_letters << scales[(new_key[1] == '#' or new_key[1] == 'b' ? new_key[0].downcase + new_key[1] : new_key[0])].key(step)
 }
-puts 'new_first_letters'
-new_first_letters.each {|l| print(l, ' ')}
+
 new_first_and_remaining_letters = []
 for i in [0..new_first_letters.size] do
   new_first_and_remaining_letters[i] = new_first_letters[i] + orig_remaining_letters[i]
 end
-puts 'new_first_and_remaining_letters'
-new_first_and_remaining_letters.each {|l| print(l, ' ')}
+
 puts "Chords in #{new_key[0].upcase + new_key[1..]} "
 
 first_letter_index = 0
